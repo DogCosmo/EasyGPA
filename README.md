@@ -1,2 +1,2 @@
 # EasyGPA
-Calculating unweighted GPAs made easy.
+Calculating GPAs made easy.
