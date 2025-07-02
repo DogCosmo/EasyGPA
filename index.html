@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unweighted GPA Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-white to-yellow-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-xl w-full space-y-6">
+    <h1 class="text-3xl font-semibold text-center text-gray-800">Unweighted GPA Calculator</h1>
+
+    <div id="gradeInputs" class="space-y-4"></div>
+
+    <div class="flex items-center gap-2">
+      <input type="number" id="classCount" min="1" placeholder="Enter # of classes" class="w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+      <button onclick="generateInputs()" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-xl transition">Add Classes</button>
+    </div>
+
+    <button onclick="calculateGPA()" class="w-full bg-yellow-400 hover:bg-yellow-500 text-white py-3 rounded-xl font-semibold transition">Calculate GPA</button>
+
+    <div id="result" class="text-center text-2xl font-bold text-gray-700"></div>
+  </div>
+
+  <script>
+    const gradeMap = {
+      "A+": 4.0,
+      "A": 4.0,
+      "A-": 3.7,
+      "B+": 3.3,
+      "B": 3.0,
+      "B-": 2.7,
+      "C+": 2.3,
+      "C": 2.0,
+      "C-": 1.7,
+      "D+": 1.3,
+      "D": 1.0,
+      "F": 0.0
+    };
+
+    function generateInputs() {
+      const count = parseInt(document.getElementById("classCount").value);
+      const container = document.getElementById("gradeInputs");
+      container.innerHTML = "";
+
+      for (let i = 1; i <= count; i++) {
+        const select = document.createElement("select");
+        select.className = "w-full px-4 py-2 border rounded-xl border-gray-300 focus:outline-none";
+        select.innerHTML = `
+          <option disabled selected>Grade for class ${i}</option>
+          ${Object.keys(gradeMap).map(grade => `<option value="${grade}">${grade}</option>`).join("")}
+        `;
+        container.appendChild(select);
+      }
+    }
+
+    function calculateGPA() {
+      const selects = document.querySelectorAll("#gradeInputs select");
+      let total = 0;
+      let validCount = 0;
+
+      selects.forEach(select => {
+        const grade = select.value;
+        if (gradeMap.hasOwnProperty(grade)) {
+          total += gradeMap[grade];
+          validCount++;
+        }
+      });
+
+      const gpa = validCount > 0 ? (total / validCount).toFixed(2) : "N/A";
+      document.getElementById("result").textContent = `Your unweighted GPA is: ${gpa}`;
+    }
+  </script>
+</body>
+</html>
