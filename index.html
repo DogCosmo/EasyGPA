@@ -1,24 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="="en">
 <head>
   <meta charset="UTF-8">
-  <title>Unweighted GPA Calculator</title>
+  <title>EasyGPA</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-tr from-yellow-200 via-pink-200 to-purple-300 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gradient-to-tr from-yellow-200 via-pink-200 to-purple-300 min-h-screen flex flex-col items-center justify-start py-10 px-4 space-y-16">
+
   <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-xl w-full space-y-6">
     <h1 class="text-3xl font-semibold text-center text-pink-600">Unweighted GPA Calculator</h1>
-
-    <div id="gradeInputs" class="space-y-4"></div>
+    <div id="unweightedInputs" class="space-y-4"></div>
 
     <div class="flex items-center gap-2">
-      <input type="number" id="classCount" min="1" placeholder="Enter # of classes" class="w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-300">
-      <button onclick="generateInputs()" class="bg-pink-400 hover:bg-pink-500 text-white px-4 py-2 rounded-xl transition">Add Classes</button>
+      <input type="number" id="unweightedClassCount" min="1" placeholder="Enter # of classes" class="w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-300">
+      <button onclick="generateUnweightedInputs()" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl transition">Add Classes</button>
     </div>
 
-    <button onclick="calculateGPA()" class="w-full bg-rose-400 hover:bg-rose-500 text-white py-3 rounded-xl font-semibold transition">Calculate GPA</button>
+    <button onclick="calculateUnweightedGPA()" class="w-full bg-pink-400 hover:bg-pink-500 text-white py-3 rounded-xl font-semibold transition">Calculate Unweighted GPA</button>
+    <div id="unweightedResult" class="text-center text-2xl font-bold text-pink-700"></div>
+  </div>
 
-    <div id="result" class="text-center text-2xl font-bold text-pink-700"></div>
+  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-xl w-full space-y-6">
+    <h1 class="text-3xl font-semibold text-center text-pink-600">Weighted GPA Calculator</h1>
+    <div id="weightedInputs" class="space-y-4"></div>
+
+    <div class="flex items-center gap-2">
+      <input type="number" id="weightedClassCount" min="1" placeholder="Enter # of classes" class="w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-300">
+      <button onclick="generateWeightedInputs()" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl transition">Add Classes</button>
+    </div>
+
+    <button onclick="calculateWeightedGPA()" class="w-full bg-pink-400 hover:bg-pink-500 text-white py-3 rounded-xl font-semibold transition">Calculate Weighted GPA</button>
+    <div id="weightedResult" class="text-center text-2xl font-bold text-pink-700"></div>
   </div>
 
   <script>
@@ -37,24 +49,28 @@
       "F": 0.0
     };
 
-    function generateInputs() {
-      const count = parseInt(document.getElementById("classCount").value);
-      const container = document.getElementById("gradeInputs");
+    const levelBonus = {
+      "Regular": 0.0,
+      "Honors": 0.5,
+      "AP/IB": 1.0
+    };
+
+    function generateUnweightedInputs() {
+      const count = parseInt(document.getElementById("unweightedClassCount").value);
+      const container = document.getElementById("unweightedInputs");
       container.innerHTML = "";
 
       for (let i = 1; i <= count; i++) {
         const select = document.createElement("select");
         select.className = "w-full px-4 py-2 border rounded-xl border-gray-300 focus:outline-none";
-        select.innerHTML = `
-          <option disabled selected>Grade for class ${i}</option>
-          ${Object.keys(gradeMap).map(grade => `<option value="${grade}">${grade}</option>`).join("")}
-        `;
+        select.innerHTML = `<option disabled selected>Grade for class ${i}</option>` +
+          Object.keys(gradeMap).map(g => `<option value="${g}">${g}</option>`).join("");
         container.appendChild(select);
       }
     }
 
-    function calculateGPA() {
-      const selects = document.querySelectorAll("#gradeInputs select");
+    function calculateUnweightedGPA() {
+      const selects = document.querySelectorAll("#unweightedInputs select");
       let total = 0;
       let validCount = 0;
 
@@ -67,7 +83,56 @@
       });
 
       const gpa = validCount > 0 ? (total / validCount).toFixed(2) : "N/A";
-      document.getElementById("result").textContent = `Your unweighted GPA is: ${gpa}`;
+      document.getElementById("unweightedResult").textContent = `Your unweighted GPA is ${gpa}`;
+    }
+
+    function generateWeightedInputs() {
+      const count = parseInt(document.getElementById("weightedClassCount").value);
+      const container = document.getElementById("weightedInputs");
+      container.innerHTML = "";
+
+      for (let i = 1; i <= count; i++) {
+        const row = document.createElement("div");
+        row.className = "flex gap-2";
+
+        const gradeSelect = document.createElement("select");
+        gradeSelect.className = "w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none";
+        gradeSelect.innerHTML = `<option disabled selected>Grade for class ${i}</option>` +
+          Object.keys(gradeMap).map(g => `<option value="${g}">${g}</option>`).join("");
+
+        const levelSelect = document.createElement("select");
+        levelSelect.className = "w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none";
+        levelSelect.innerHTML = `
+          <option disabled selected>Level</option>
+          <option value="Regular">Regular</option>
+          <option value="Honors">Honors</option>
+          <option value="AP/IB">AP/IB</option>
+        `;
+
+        row.appendChild(gradeSelect);
+        row.appendChild(levelSelect);
+        container.appendChild(row);
+      }
+    }
+
+    function calculateWeightedGPA() {
+      const rows = document.querySelectorAll("#weightedInputs > div");
+      let total = 0;
+      let count = 0;
+
+      rows.forEach(row => {
+        const selects = row.querySelectorAll("select");
+        const grade = selects[0].value;
+        const level = selects[1].value;
+
+        if (gradeMap.hasOwnProperty(grade) && levelBonus.hasOwnProperty(level)) {
+          total += gradeMap[grade] + levelBonus[level];
+          count++;
+        }
+      });
+
+      const gpa = count > 0 ? (total / count).toFixed(2) : "N/A";
+      document.getElementById("weightedResult").textContent = `Your weighted GPA is ${gpa}`;
     }
   </script>
 </body>
