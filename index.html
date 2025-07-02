@@ -5,20 +5,20 @@
   <title>Unweighted GPA Calculator</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-100 via-white to-yellow-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gradient-to-br from-pink-100 via-white to-rose-200 min-h-screen flex items-center justify-center p-4">
   <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-xl w-full space-y-6">
-    <h1 class="text-3xl font-semibold text-center text-gray-800">Unweighted GPA Calculator</h1>
+    <h1 class="text-3xl font-semibold text-center text-pink-600">Unweighted GPA Calculator</h1>
 
     <div id="gradeInputs" class="space-y-4"></div>
 
     <div class="flex items-center gap-2">
-      <input type="number" id="classCount" min="1" placeholder="Enter # of classes" class="w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
-      <button onclick="generateInputs()" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-xl transition">Add Classes</button>
+      <input type="number" id="classCount" min="1" placeholder="Enter # of classes" class="w-1/2 px-4 py-2 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-300">
+      <button onclick="generateInputs()" class="bg-pink-400 hover:bg-pink-500 text-white px-4 py-2 rounded-xl transition">Add Classes</button>
     </div>
 
-    <button onclick="calculateGPA()" class="w-full bg-yellow-400 hover:bg-yellow-500 text-white py-3 rounded-xl font-semibold transition">Calculate GPA</button>
+    <button onclick="calculateGPA()" class="w-full bg-rose-400 hover:bg-rose-500 text-white py-3 rounded-xl font-semibold transition">Calculate GPA</button>
 
-    <div id="result" class="text-center text-2xl font-bold text-gray-700"></div>
+    <div id="result" class="text-center text-2xl font-bold text-pink-700"></div>
   </div>
 
   <script>
