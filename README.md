@@ -6,6 +6,6 @@ What EasyGPA does: EasyGPA takes two different user inputs - one is the number o
 
 Why I made EasyGPA: I made EasyGPA because as a a high school student, I am always eager to know what my GPA is (unweighted and weighted) before my report card is sent out at the end of the year. In the past, I have resorted to ChatGPT for calculating my GPA, but it turns out that ChatGPT gave me a totally wrong result. Thus, I tried GPA calculators available on the internet, but the majority of those asked for the number of "credits" each of my classes are worth and I had no idea what that meant! If I left that field empty, the website wouldn't even let me calculate my GPA. That's when I began to research how to actually calculate both your unweighted and weighted GPAs. But any time I wanted to calculate my GPA, I had to actually pull out a calculator and perform the mathematical operations which was pretty tiring. I wanted to streamline this process, for not just myself but also for other students just like me, hence I created EasyGPA!
 
-How I made EasyGPA:
+How I made EasyGPA: I made EasyGPA using mainly HTML, although CSS was used for styling the UI, and JavaScript was responsible for the actual calculations and input generation.
 
 What I struggled with and learned along the way:
