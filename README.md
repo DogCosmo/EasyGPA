@@ -1,6 +1,6 @@
 # EasyGPA
-"Calculating GPAs made easy."
-
+_Calculating GPAs made easy
+_
 About EasyGPA:
 
 What EasyGPA does: 
